@@ -46,31 +46,34 @@ const Persons = ({persons, deletePerson}) => {
   <>
   <ul>
     {persons.map(person => 
-      <p key={person.name}>{person.name} {person.number} <button onClick={() => deletePerson(person)}>Delete</button></p>
+      <li key={person.name}>{person.name} {person.number} <button className='delete' onClick={() => deletePerson(person)}>Delete</button></li>
     )}
     </ul>
   </>
   )
 }
 
-const Notification = ({ message }) => {
-  if (message === null) {
+const Notification = ({ notification }) => {
+  console.log('notification', notification)
+  if (notification.message === null) {
     return null
   }
 
   return (
-    <div className="success">
-      {message}
+    <div className={`notification ${notification.type}`}>
+      {notification.message}
     </div>
   )
 }
+
+
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
-  const [successMessage, setSuccessMessage] = useState(null)
+  const [notification, setNotification] = useState({message: null, type: ''})
 
   useEffect(() => {
     personService
@@ -104,9 +107,16 @@ const App = () => {
         setPersons(persons.map(person => person.id !== id ? person : returnedPerson))
         setNewName('')
         setNewNumber('')
-        setSuccessMessage(`Number of ${person.name} changed`)
+        setNotification({message: `Updated ${newName}`, type: 'success'})
         setTimeout(() => {
-          setSuccessMessage(null)
+          setNotification({message: null, type: ''})
+        }, 3000)
+      })
+      .catch(error => {
+        setNotification({message: `Information of ${person.name} has already been removed from server`, type: 'error'})
+        setPersons(persons.filter(person => person.id !== id))
+        setTimeout(() => {
+          setNotification({message: null, type: ''})
         }, 3000)
       })
     }
@@ -119,9 +129,9 @@ const App = () => {
       setPersons(persons.concat(returnedPerson))
       setNewName('')
       setNewNumber('')
-      setSuccessMessage(`Added ${personObject.name}`)
+      setNotification({message: `Added ${personObject.name}`, type: 'success'})
         setTimeout(() => {
-        setSuccessMessage(null)
+          setNotification({message: null, type: ''})
         }, 3000)
     })
 
@@ -139,9 +149,9 @@ const App = () => {
     .deletePerson(id)
     .then(() => {
     setPersons(persons.filter(person => person.id !== id))
-    setSuccessMessage(`Deleted ${name}`)
+    setNotification({message: `Deleted ${name}`, type: 'success'})
         setTimeout(() => {
-          setSuccessMessage(null)
+          setNotification({message: null, type: ''})
         }, 5000)
     })
     }
@@ -169,9 +179,9 @@ const App = () => {
 
 
   return (
-    <div>
+    <div className='container'>
       <h2>Phonebook</h2>
-      <Notification message={successMessage} />
+      <Notification notification={notification} />
       <Filter newFilter={newFilter} handleFilter={handleFilterChange}/>
       <h2>Add a new</h2>
       <PersonForm 

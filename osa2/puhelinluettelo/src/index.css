@@ -67,7 +67,9 @@ button:focus-visible {
   }
 }
 
-.success {
+
+
+.notification.success {
   color: green;
   background: lightgrey;
   font-size: 20px;
@@ -75,4 +77,29 @@ button:focus-visible {
   border-radius: 5px;
   padding: 10px;
   margin-bottom: 10px;
+}
+
+.notification.error {
+  color: red;
+  background: lightgrey;
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.container {
+  padding: 10px;
+}
+
+.delete {
+      height: 25px;
+      font-size: 10px;
 }
