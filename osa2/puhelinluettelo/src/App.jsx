@@ -1,71 +1,10 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import personService from './services/persons'
-
-
-const Filter = ({newFilter, handleFilter}) => {
-  return (
-    <>
-      filter shown with
-      <input 
-      value={newFilter}
-      onChange={handleFilter}
-      />
-      </>
-  )
-}
-
-const PersonForm = ({handlers, newName, newNumber}) => {
-  const { handleNameChange, handleNumberChange, addPerson } = handlers
-  return (
-    <>
-      <form onSubmit={addPerson}>
-        <div>
-          name: <input 
-          value={newName} 
-          onChange={handleNameChange}
-          />
-        </div>
-        <div>
-          number: <input 
-          value={newNumber} 
-          onChange={handleNumberChange}
-          />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      </>
-  )
-}
-
-const Persons = ({persons, deletePerson}) => {
-  console.log('filuihmiset', persons)
-  return (
-  <>
-  <ul>
-    {persons.map(person => 
-      <li key={person.name}>{person.name} {person.number} <button className='delete' onClick={() => deletePerson(person)}>Delete</button></li>
-    )}
-    </ul>
-  </>
-  )
-}
-
-const Notification = ({ notification }) => {
-  console.log('notification', notification)
-  if (notification.message === null) {
-    return null
-  }
-
-  return (
-    <div className={`notification ${notification.type}`}>
-      {notification.message}
-    </div>
-  )
-}
-
+import Notification from './components/Notification'
+import PersonForm from './components/PersonForm'
+import Persons from './components/Persons'
+import Filter from './components/Filter'
 
 
 const App = () => {
