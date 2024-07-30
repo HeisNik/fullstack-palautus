@@ -1,11 +1,12 @@
 
 
-const Countries = ({countries, flag}) => {
-    console.log('maat', countries)
+const Countries = ({countries, flag, showCountry, weather}) => {
+   
   
     const imageStyle = {
       paddingTop: "10px",
     }
+
   
   if (countries.length > 10 || countries.length == 0) {
     return (
@@ -22,16 +23,14 @@ const Countries = ({countries, flag}) => {
       <>
     <ul>
       {countries.map(country => 
-        <li key={country.name.official}>{country.name.common}</li>
+        <li key={country.name.official}>{country.name.common} <button onClick={ () => showCountry(country.name.common)}>show</button></li>
       )}
       </ul>
       </>
     )
   
     else {
-      /*console.log('testi', Object.entries(countries[0]))
-      console.log('flag', flag)*/
-  
+    
   
       return (
         <>
@@ -45,6 +44,10 @@ const Countries = ({countries, flag}) => {
           ))}
           </ul>
           <div style={imageStyle}><img src={flag} alt={`Flag of ${countries[0].name.common}`} /></div>
+          <h1>Weather in {countries[0].capital}</h1>
+          <p>temperature {weather.temp} Celcius</p>
+          <p><img src={weather.icon} alt={`weather icon`} /></p>
+          <p>wind {weather.wind} m/s</p>
         </>
       )
     }
